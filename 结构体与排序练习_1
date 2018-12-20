@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#define MAX 20
+#define LEN 12
+typedef
+struct n
+{
+	char name[LEN];
+	double score;
+}S;			//定义结构体定义方式
+void sort(S *a, int n, int *t){
+	for (int j=0;j<n;j++){
+		for (int i=n-1;i>0;i--){
+			if (a[t[i]].score < a[t[i-1]].score){
+				int temp = t[i];
+				t[i]= t[i-1];
+				t[i-1] = temp;
+			}
+		}
+	}
+}//定义排序函数
+int power(int a, int b){
+	int c;
+	int m = 1;
+	for (int i=0;i<b;i++){
+		m = m * a;
+	}
+	return m;
+}//定义乘方函数
+int main(void)
+{
+	S a[MAX];
+	double sum = 0;
+	double average;
+	int t[MAX];
+	srand((unsigned)time(NULL));//随机种子
+	for (int j=0;j<MAX;j++){
+	//a[j].score = (rand()%100/100 + rand()%100) * power(-1, rand()%100);带有符号的数组
+		a[j].score = rand()%100 * 1.0 / 100 + rand()%100;
+		a[j].name[0] = 'A'+ rand()%26;
+		for (int i=1;i<LEN;i++){
+			a[j].name[i] = 'a' + rand()%26;
+		}
+		a[j].name[LEN] = 0;
+		int c = rand()%8 + 2;
+		a[j].name[c] = '-';
+		a[j].name[c + 1] = 'A'+ rand()%26;
+		t[j] = j;//定义下标数组，用于结构体数组排序
+		sum = sum + a[j].score;
+		printf("%-5d", j+1);
+		printf("%10s", a[j].name);
+		printf("% 10.2f\n", a[j].score);
+	}
+	average = sum / MAX;
+	sort(a, MAX, t);
+	printf("after sorted:\n");
+	for (int j=0;j<MAX;j++){
+		printf("%-5d", t[j]+1);
+		printf("%10s", a[t[j]].name);
+		printf("% 10.2f", a[t[j]].score);
+		if (a[t[j]].score >= 60){
+			printf("     Passed\n");
+		}
+		else printf("     Failed\n");
+		}
+	printf("\nThe average is : %10.2f", average);
+	if (average >= 60){
+		printf("     Passed\n");
+	}
+	else printf("     Failed\n\nYou fucking idiots!!!");
+	getchar();
+	return 0;
+}
